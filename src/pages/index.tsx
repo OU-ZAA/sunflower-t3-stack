@@ -1,3 +1,4 @@
+import { SignInButton, SignUpButton } from "@clerk/nextjs";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import Image from "next/image";
@@ -18,16 +19,20 @@ export default function Home() {
       <header className="border-b">
         <div className="mx-auto flex max-w-7xl justify-between py-2">
           <div className="flex items-center gap-4">
-            <Image src={logo} alt="logo" width={50} />
+            <Image priority={true} src={logo} alt="logo" width={50} />
             <SearchBox />
           </div>
           <div className="flex gap-2">
-            <button className="rounded-md px-4 py-2 transition-colors hover:bg-purple-100 hover:text-purple-700 hover:underline">
-              Log in
-            </button>
-            <button className="rounded-md border-2 border-purple-700 px-4 py-2 text-purple-700 transition-colors hover:bg-purple-700 hover:text-white hover:underline">
-              Create account
-            </button>
+            <SignInButton>
+              <button className="rounded-md px-4 py-2 transition-colors hover:bg-purple-100 hover:text-purple-700 hover:underline">
+                Log in
+              </button>
+            </SignInButton>
+            <SignUpButton>
+              <button className="rounded-md border-2 border-purple-700 px-4 py-2 text-purple-700 transition-colors hover:bg-purple-700 hover:text-white hover:underline">
+                Create account
+              </button>
+            </SignUpButton>
           </div>
         </div>
       </header>
@@ -41,7 +46,7 @@ function SearchBox() {
       <input
         type="search"
         placeholder="Search..."
-        className="rounded-md border px-2 py-1 text-lg shadow-sm transition-colors hover:border-slate-500 focus-visible:border-2 focus-visible:border-purple-700 focus-visible:outline-none md:w-[100px] lg:w-[420px]"
+        className="rounded-md border px-2 py-1 text-lg shadow-sm transition-colors hover:border-slate-500 focus-visible:border-2 focus-visible:border-purple-700 focus-visible:outline-none md:w-[300px] lg:w-[420px]"
       />
       <button className="absolute right-0 h-full rounded-lg px-2 hover:bg-purple-100">
         <svg
@@ -55,30 +60,6 @@ function SearchBox() {
         >
           <path d="m18.031 16.617 4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z"></path>
         </svg>
-      </button>
-    </div>
-  );
-}
-
-function AuthShowcase() {
-  const { data: sessionData } = useSession();
-
-  const { data: secretMessage } = api.example.getSecretMessage.useQuery(
-    undefined, // no input
-    { enabled: sessionData?.user !== undefined },
-  );
-
-  return (
-    <div className="flex flex-col items-center justify-center gap-4">
-      <p className="text-center text-2xl text-white">
-        {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
-        {secretMessage && <span> - {secretMessage}</span>}
-      </p>
-      <button
-        className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-        onClick={sessionData ? () => void signOut() : () => void signIn()}
-      >
-        {sessionData ? "Sign out" : "Sign in"}
       </button>
     </div>
   );
