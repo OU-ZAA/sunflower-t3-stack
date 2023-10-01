@@ -1,13 +1,19 @@
-import { SignInButton, SignUpButton } from "@clerk/nextjs";
-import { signIn, signOut, useSession } from "next-auth/react";
+import {
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  useUser,
+} from "@clerk/nextjs";
 import Head from "next/head";
 import Image from "next/image";
 import logo from "public/assests/logo.png";
-
+import { UserNav } from "~/components/user-nav";
 import { api } from "~/utils/api";
 
 export default function Home() {
   const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  const { isLoaded, isSignedIn, user } = useUser();
 
   return (
     <>
@@ -22,17 +28,25 @@ export default function Home() {
             <Image priority={true} src={logo} alt="logo" width={50} />
             <SearchBox />
           </div>
-          <div className="flex gap-2">
-            <SignInButton>
-              <button className="rounded-md px-4 py-2 transition-colors hover:bg-purple-100 hover:text-purple-700 hover:underline">
-                Log in
-              </button>
-            </SignInButton>
-            <SignUpButton>
+          <div className="flex items-center gap-4">
+            <SignedOut>
+              <SignInButton>
+                <button className="rounded-md px-4 py-2 transition-colors hover:bg-purple-100 hover:text-purple-700 hover:underline">
+                  Log in
+                </button>
+              </SignInButton>
+              <SignUpButton>
+                <button className="rounded-md border-2 border-purple-700 px-4 py-2 text-purple-700 transition-colors hover:bg-purple-700 hover:text-white hover:underline">
+                  Create account
+                </button>
+              </SignUpButton>
+            </SignedOut>
+            <SignedIn>
               <button className="rounded-md border-2 border-purple-700 px-4 py-2 text-purple-700 transition-colors hover:bg-purple-700 hover:text-white hover:underline">
-                Create account
+                Create Post
               </button>
-            </SignUpButton>
+              <UserNav />
+            </SignedIn>
           </div>
         </div>
       </header>
