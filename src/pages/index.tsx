@@ -1,19 +1,12 @@
-import {
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  useUser,
-} from "@clerk/nextjs";
+import { SignInButton, SignUpButton, SignedIn, SignedOut } from "@clerk/nextjs";
 import Head from "next/head";
 import Image from "next/image";
-import logo from "public/assests/logo.png";
+import logo from "public/assets/logo.png";
 import { UserNav } from "~/components/user-nav";
 import { api } from "~/utils/api";
 
 export default function Home() {
   const hello = api.example.hello.useQuery({ text: "from tRPC" });
-  const { isLoaded, isSignedIn, user } = useUser();
 
   return (
     <>
